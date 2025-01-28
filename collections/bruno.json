@@ -1,0 +1,231 @@
+{
+  "name": "Automa Store Collection",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "Checkout Products",
+      "seq": 5,
+      "request": {
+        "url": "http://localhost:3000/api/checkout",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"items\": [\n    { \"productId\": 1, \"quantity\": 8 }\n  ]\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Get Products",
+      "seq": 6,
+      "request": {
+        "url": "http://localhost:3000/api/products?page=1&pageSize=5&orderBy=price&direction=desc",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "page",
+            "value": "1",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "pageSize",
+            "value": "5",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "orderBy",
+            "value": "price",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "direction",
+            "value": "desc",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Get Product By Id",
+      "seq": 4,
+      "request": {
+        "url": "http://localhost:3000/api/products/1",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Create Product",
+      "seq": 5,
+      "request": {
+        "url": "http://localhost:3000/api/products",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"name\": \"Camiseta DEV 13\",\n  \"description\": \"Descrição do produto\",\n  \"price\": 10000,\n  \"stock\": 10\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Delete Product By Id",
+      "seq": 6,
+      "request": {
+        "url": "http://localhost:3000/api/products/6",
+        "method": "DELETE",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Search Product",
+      "seq": 8,
+      "request": {
+        "url": "http://localhost:3000/api/products/search?name=Camiseta Dev 13&page=1&pageSize=5",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "name",
+            "value": "Camiseta Dev 13",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "page",
+            "value": "1",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "pageSize",
+            "value": "5",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Update Product",
+      "seq": 9,
+      "request": {
+        "url": "http://localhost:3000/api/products/20",
+        "method": "PUT",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"name\": \"Updated Product Name\",\n  \"price\": 99.99,\n  \"stock\": 20\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Automa Store Collection",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}
