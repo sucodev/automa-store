@@ -54,8 +54,17 @@ O **AutomaStore** é uma exemplificação de um e-commerce, desenvolvida para si
 - **Lodash Debounce**: Otimização de eventos (ex: busca em tempo real).
 
 ---
+## 🚀 Como testar em produção:
+1. Acesse o link:
+   ```bash
+   https://automa-store.vercel.app
+   
+   ```
 
-## 🚀 Como Executar
+OBS: frontend do projeto está hospedado na Vercel, garantindo alta disponibilidade e desempenho. Já o banco de dados utiliza PostgreSQL na AWS RDS, proporcionando escalabilidade e segurança para armazenar os dados de forma confiável.
+
+
+## 🚀 Como Executar localmente
 
 1. Clone o repositório:
    ```bash
