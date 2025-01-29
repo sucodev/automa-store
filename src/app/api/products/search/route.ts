@@ -1,6 +1,5 @@
 import { ProductServiceImpl } from '@/infra/services/impl/ProductServiceImpl';
 import { ListProductsUseCase } from '@/infra/useCases/ListProductsUseCase';
-import redis from '@/lib/redis';
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
@@ -89,13 +88,15 @@ export async function GET(request: NextRequest) {
   const page = parseInt(searchParams.get('page') || '1', 10);
   const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
 
-  const cacheKey = `products:search:${name}:page=${page}:pageSize=${pageSize}`;
+  // @NOTE: Disabled Redis because AWS EC2 is not configured.
 
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `products:search:${name}:page=${page}:pageSize=${pageSize}`;
 
-  if (cachedData) {
-    return NextResponse.json(JSON.parse(cachedData));
-  }
+  // const cachedData = await redis.get(cacheKey);
+
+  // if (cachedData) {
+  //   return NextResponse.json(JSON.parse(cachedData));
+  // }
 
   const productService = new ProductServiceImpl();
   const listProductsUseCase = new ListProductsUseCase(productService);
@@ -118,15 +119,16 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    const expirationTime =
-      process.env.NODE_ENV === 'development' ? 15 : 45 * 60;
+    // @NOTE: Disabled Redis because AWS EC2 is not configured.
+    // const expirationTime =
+    //   process.env.NODE_ENV === 'development' ? 15 : 45 * 60;
 
-    await redis.set(
-      cacheKey,
-      JSON.stringify(responseData),
-      'EX',
-      expirationTime,
-    );
+    // await redis.set(
+    //   cacheKey,
+    //   JSON.stringify(responseData),
+    //   'EX',
+    //   expirationTime,
+    // );
 
     return NextResponse.json(responseData);
   } catch (error) {
