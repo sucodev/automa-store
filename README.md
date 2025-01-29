@@ -1,6 +1,6 @@
 # AutomaStore 🚀
 
-O **AutomaStore** é uma plataforma de e-commerce, desenvolvida para simplificar gestão de produtos, pedidos e integrações com marketplaces. Com arquitetura escalável e foco em performance, o projeto combina tecnologias de ponta para oferecer uma experiência robusta e intuitiva.
+O **AutomaStore** é uma exemplificação de um e-commerce, desenvolvida para simplificar gestão de produtos, pedidos. Com arquitetura escalável e foco em performance, o projeto combina tecnologias de ponta para oferecer uma experiência robusta e intuitiva.
 
 ---
 
