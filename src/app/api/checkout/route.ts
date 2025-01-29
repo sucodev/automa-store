@@ -22,7 +22,7 @@ import { NextRequest, NextResponse } from 'next/server';
  *                 items:
  *                   type: object
  *                   properties:
- *                     id:
+ *                     productId:
  *                       type: integer
  *                       description: ID do produto
  *                     quantity:
