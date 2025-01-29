@@ -1,6 +1,6 @@
 # AutomaStore 🚀
 
-O **AutomaStore** é uma exemplificação de um e-commerce, desenvolvida para simplificar gestão de produtos, pedidos. Com arquitetura escalável e foco em performance, o projeto combina tecnologias de ponta para oferecer uma experiência robusta e intuitiva.
+O **AutomaStore** é uma exemplificação de um e-commerce, desenvolvida para o Code Challange da AutomaTrade. Com arquitetura escalável e foco em performance, o projeto combina tecnologias de ponta para oferecer uma experiência robusta e intuitiva.
 
 ---
 
@@ -98,6 +98,11 @@ OBS: frontend do projeto está hospedado na Vercel, garantindo alta disponibilid
 6. Acesse:
    ```bash
    http://localhost:3000
+
+   ```
+7. Swagger:
+   ```bash
+   http://localhost:3000/swagger
 
    ```
 
