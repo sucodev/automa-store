@@ -29,11 +29,13 @@ export default function Card({
         handleUpdateProduct={handleUpdateProduct}
         products={products}
       />
-      <Pagination
-        handlePageChange={handlePageChange}
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      {totalPages > 0 && (
+        <Pagination
+          handlePageChange={handlePageChange}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 }

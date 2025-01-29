@@ -9,6 +9,7 @@ import { API } from '@/constants/api';
 import { Dialog } from './dialog/Dialog';
 import { UpdateProductDialog } from './dialog/UpdateProduct';
 import { useProductStore } from '@/store/productStore';
+import { SkeletonCard } from './product/Skeleton';
 
 export function ProductList({
   currentPage,
@@ -45,7 +46,7 @@ export function ProductList({
 
   const fetcher = (url: string) => fetch(url).then(res => res.json());
 
-  const { data, error } = useSWR(
+  const { data, isLoading } = useSWR(
     !searchTerm
       ? `${API.PRODUCT}?page=${currentPage}&pageSize=10&orderBy=createdAt&direction=desc`
       : `${API.SEARCH}?name=${searchTerm}&page=${currentPage}&pageSize=10&orderBy=createdAt&direction=desc`,
@@ -150,8 +151,7 @@ export function ProductList({
     }
   };
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data?.data.length || isLoading) return <SkeletonCard />;
 
   return (
     <div className="mt-4">

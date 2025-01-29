@@ -12,7 +12,7 @@ export default function SearchPage({
 }) {
   return (
     <div className="container mx-auto ">
-      <h2 className="font-sans font-semibold text-4xl text-black">
+      <h2 className="font-sans font-semibold text-4xl text-black mb-4">
         Você buscou por:{' '}
         <span className="font-bold">
           {searchTerm ? `"${searchTerm}"` : '"Nada encontrado"'}
