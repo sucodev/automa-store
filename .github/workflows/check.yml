@@ -16,4 +16,4 @@ jobs:
       - name: 🔦 Run linter
         run: bun run lint
       - name: 🪐 Check TypeScript
-        run: bun run typecheck
+        run: bun x tsc --noEmit
