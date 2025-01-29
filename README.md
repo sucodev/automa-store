@@ -37,11 +37,6 @@ O **AutomaStore** é uma exemplificação de um e-commerce, desenvolvida para o 
 - **Objetivo**: Biblioteca para fetch de dados com cache, revalidação automática e tratamento de erros.
 - **Vantagem**: Melhora performance e UX com dados sempre atualizados.
 
-### **ioredis**
-
-- **Objetivo**: Cliente Redis para cache de dados e otimização de operações frequentes.
-- **Caso de uso**: Cache de produtos, sessões de usuário e rate limiting.
-
 ### **Swagger (JSDoc + UI)**
 
 - **Objetivo**: Documentação automática de APIs via comentários JSDoc e interface interativa.
