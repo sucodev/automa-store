@@ -54,29 +54,28 @@ export function ProductList({
   if (isLoading) return <SkeletonCard />;
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 md:mt-6 px-4 md:px-6">
       <div>
         {searchTerm && (
-          <>
-            <h1 className="font-sans font-semibold text-2xl text-black mb-4 flex items-center gap-2">
-              <SearchFound className="w-10 h-10" />
-              Você buscou por:
-              <span className="font-bold">{`"${searchTerm}"`}</span>
-            </h1>
-          </>
+          <h1 className="font-sans font-semibold text-lg md:text-2xl text-black mb-4 flex items-center gap-2 md:gap-4 flex-col sm:flex-row">
+            <SearchFound className="w-8 h-8 md:w-10 md:h-10" />
+            Você buscou por:
+            <span className="font-bold">{`"${searchTerm}"`}</span>
+          </h1>
         )}
 
         {!data?.data.length && (
           <>
             <hr />
-            <div className="flex items-center gap-2 mt-4">
-              <h1 className="text-2xl font-bold">
+            <div className="flex items-center gap-2 md:gap-4 mt-4 md:mt-6">
+              <h1 className="text-lg md:text-2xl font-bold">
                 Nenhum resultado encontrado
               </h1>
             </div>
           </>
         )}
       </div>
+
       <Card
         currentPage={currentPage}
         handleAddToCart={handleAddToCart}
