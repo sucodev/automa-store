@@ -7,6 +7,8 @@ import { SessionProvider } from 'next-auth/react';
 
 import { Analytics } from '@vercel/analytics/react';
 
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
 export const metadata: Metadata = {
   title: 'AutomaTrade',
   description:
@@ -28,6 +30,7 @@ export default function RootLayout({
 
           <Toaster />
           <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </SessionProvider>
