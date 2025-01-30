@@ -13,8 +13,10 @@ import { ShoppingBagIcon } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { API } from '@/constants/api';
 import { mutate } from 'swr';
+import { signIn, useSession } from 'next-auth/react';
 
 export const CartSidebar = () => {
+  const { data: session } = useSession();
   const { cart, resetCart } = useCartStore(state => state);
 
   let subtotal = 0;
@@ -23,6 +25,45 @@ export const CartSidebar = () => {
   }
 
   const handleCheckout = async () => {
+    if (!session || !session.user) {
+      toast({
+        description: (
+          <span className="text-gray-700">
+            To purchase this product, please{' '}
+            <button
+              className="text-purple-600 underline font-bold hover:text-purple-700 transition-colors"
+              onClick={() => signIn('github')}
+            >
+              login with GitHub
+            </button>
+          </span>
+        ),
+        title: (
+          <div className="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-purple-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className="text-purple-600  font-bold">
+              Authentication Required
+            </span>
+          </div>
+        ) as // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        any,
+      });
+      return;
+    }
+
     const items = cart.map(item => ({
       productId: item.product.id,
       quantity: item.quantity,
