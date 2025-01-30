@@ -148,7 +148,7 @@ const Header = React.memo(() => {
               </form>
             </div>
           </div>
-          <ul className="flex-1 flex justify-end items-center gap-2 flex-shrink-0">
+          <ul className="flex-1 flex justify-end items-center gap-4 flex-shrink-0">
             <CartSidebar />
             {session ? (
               <>
