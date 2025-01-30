@@ -8,28 +8,19 @@ interface Props {
   currentPage: number;
   totalPages: number;
   handlePageChange: (currentPage: number) => void;
-  handleDeleteProduct: (productId: number) => void;
-  handleUpdateProduct: (product: Product) => void;
 }
 
 export default function Card({
   products,
   handleAddToCart,
-  handleDeleteProduct,
-  handleUpdateProduct,
   currentPage,
   totalPages,
   handlePageChange,
 }: Props) {
   return (
     <>
-      <List
-        handleAddToCart={handleAddToCart}
-        handleDeleteProduct={handleDeleteProduct}
-        handleUpdateProduct={handleUpdateProduct}
-        products={products}
-      />
-      {totalPages > 0 && (
+      <List handleAddToCart={handleAddToCart} products={products} />
+      {totalPages > 1 && (
         <Pagination
           handlePageChange={handlePageChange}
           currentPage={currentPage}

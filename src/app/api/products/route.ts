@@ -212,7 +212,7 @@ export async function POST(request: NextRequest) {
         error:
           error instanceof Error ? error.message : 'Failed to create product',
       },
-      { status: 404 },
+      { status: 400 },
     );
   }
 }

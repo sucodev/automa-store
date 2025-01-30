@@ -25,6 +25,14 @@ export class CreateProductUseCase {
       throw new Error('Product with this name already exists');
     }
 
+    if (!productData.name) {
+      throw new Error('Product name should be filled.');
+    }
+
+    if (!productData.description) {
+      throw new Error('Description should be filled.');
+    }
+
     if (typeof productData.price !== 'number' || productData.price < 0) {
       throw new Error('Price must be a non-negative number');
     }

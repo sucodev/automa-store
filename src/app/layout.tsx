@@ -3,9 +3,12 @@ import './globals.css';
 import Header from '@/components/Header';
 
 import { Toaster } from '@/components/ui/toaster';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'AutomaTrade',
+  description:
+    'O AutomaStore é uma exemplificação de um e-commerce, desenvolvida para o Code Challange da AutomaTrade. Com arquitetura escalável e foco em performance, o projeto combina tecnologias de ponta para oferecer uma experiência robusta e intuitiva.',
 };
 
 export default function RootLayout({
@@ -14,12 +17,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans antialiased">
-        <Header />
-        <main className="mt-4">{children}</main>
-        <Toaster />
-      </body>
-    </html>
+    <SessionProvider>
+      <html lang="en">
+        <body className="font-sans antialiased">
+          <Header />
+
+          <main className="mt-4 mb-4 px-4">{children}</main>
+
+          <Toaster />
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

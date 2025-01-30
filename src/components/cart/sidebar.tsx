@@ -12,6 +12,7 @@ import { CartItem } from './item';
 import { ShoppingBagIcon } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { API } from '@/constants/api';
+import { mutate } from 'swr';
 
 export const CartSidebar = () => {
   const { cart, resetCart } = useCartStore(state => state);
@@ -39,10 +40,19 @@ export const CartSidebar = () => {
       const data = await response.json();
 
       if (response.ok) {
+        mutate(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (key: any) =>
+            key.startsWith(API.PRODUCT) || key.startsWith(API.SEARCH),
+          undefined,
+          { revalidate: true },
+        );
+
         toast({
           title: 'Success!',
           description: data.message || 'Checkout completed successfully.',
         });
+
         resetCart();
       } else {
         toast({
@@ -67,8 +77,8 @@ export const CartSidebar = () => {
             className="text-purple-200 flex items-center gap-2"
             size={24}
           />
-          {cart.length > 0 && (
-            <div className="absolute top-1 left-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
+          {typeof window !== 'undefined' && cart.length > 0 && (
+            <div className="absolute -top-1 -right-2 md:top-0 md:left-5 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
               {cart.length}
             </div>
           )}

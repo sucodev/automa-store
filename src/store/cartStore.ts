@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from '@prisma/client';
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export type Cart = {
   product: Product;
@@ -23,30 +24,39 @@ const initialState: States = {
   cart: [],
 };
 
-export const useCartStore = create<States & Actions>()(set => ({
-  ...initialState,
-  upsertCartItem: (product: any, quantity) =>
-    set(state => {
-      let newCart = state.cart;
+export const useCartStore = create<States & Actions>()(
+  persist(
+    set => ({
+      ...initialState,
+      upsertCartItem: (product: any, quantity) =>
+        set(state => {
+          let newCart = [...state.cart];
 
-      let productIndex = newCart.findIndex(
-        item => item.product.id === product.id,
-      );
+          const productIndex = newCart.findIndex(
+            item => item.product.id === product.id,
+          );
 
-      if (productIndex < 0) {
-        newCart.push({ product, quantity: 0 });
-        productIndex = newCart.findIndex(
-          item => item.product.id === product.id,
-        );
-      }
+          if (productIndex < 0) {
+            newCart.push({ product, quantity: 0 });
+          }
 
-      newCart[productIndex].quantity += quantity;
+          const updatedIndex =
+            productIndex < 0 ? newCart.length - 1 : productIndex;
 
-      if (newCart[productIndex].quantity <= 0) {
-        newCart = newCart.filter(item => item.product.id !== product.id);
-      }
+          newCart[updatedIndex].quantity += quantity;
 
-      return { ...state, cart: newCart };
+          if (newCart[updatedIndex].quantity <= 0) {
+            newCart = newCart.filter(item => item.product.id !== product.id);
+          }
+
+          return { cart: newCart };
+        }),
+      resetCart: () => set({ cart: [] }),
     }),
-  resetCart: () => set({ cart: [] }),
-}));
+    {
+      name: 'cart-storage',
+      storage: createJSONStorage(() => localStorage),
+      partialize: state => ({ cart: state.cart }),
+    },
+  ),
+);

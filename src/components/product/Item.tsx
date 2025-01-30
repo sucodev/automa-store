@@ -1,6 +1,6 @@
 import { Product } from '@/interface/Product';
 import { cn } from '@/lib/utils';
-import { Edit, ShoppingBagIcon, Trash2 } from 'lucide-react';
+import { ShoppingBagIcon } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { Button } from '../ui/button';
@@ -8,16 +8,9 @@ import { Button } from '../ui/button';
 interface Props {
   product: Product;
   handleAddToCart: (product: Product) => void;
-  handleDeleteProduct: (productId: number) => void;
-  handleUpdateProduct: (product: Product) => void;
 }
 
-export default function Item({
-  product,
-  handleAddToCart,
-  handleDeleteProduct,
-  handleUpdateProduct,
-}: Props) {
+export default function Item({ product, handleAddToCart }: Props) {
   return (
     <li
       key={product.id}
@@ -26,16 +19,6 @@ export default function Item({
         product.stock === 0 && 'bg-purple-100 opacity-70',
       )}
     >
-      <div className="flex justify-end mb-2 gap-3">
-        <Edit
-          className="cursor-pointer text-black"
-          onClick={() => handleUpdateProduct(product)}
-        />
-        <Trash2
-          className="cursor-pointer text-black"
-          onClick={() => handleDeleteProduct(product.id)}
-        />
-      </div>
       <div className="relative w-full h-40 mb-4">
         <Image
           className="border-2 border-black rounded-lg"

@@ -1,6 +1,6 @@
 import { SVGType } from '@/interface/svg';
 
-export const SearchNotFound: React.FC<SVGType> = ({
+export const SearchFound: React.FC<SVGType> = ({
   className,
   fill = '#F4F2FF',
   ...props

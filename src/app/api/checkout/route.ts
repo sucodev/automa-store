@@ -1,6 +1,7 @@
 import { CheckoutUseCase } from '@/infra/useCases/CheckoutUseCase';
 import { ProductServiceImpl } from '@/infra/services/impl/ProductServiceImpl';
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
 
 /**
  * @swagger
@@ -66,6 +67,10 @@ export async function POST(request: NextRequest) {
 
   try {
     await checkoutUseCase.execute(body.items);
+
+    revalidateTag('products');
+    revalidateTag('cart');
+
     return NextResponse.json(
       { message: 'Checkout completed successfully' },
       { status: 200 },

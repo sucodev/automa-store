@@ -1,21 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { PlusIcon, Search } from 'lucide-react';
+import { LogOut, MoveUpRight, Search } from 'lucide-react';
 import { Product } from '@prisma/client';
 import Link from 'next/link';
 import { useSearchStore } from '@/store/searchStore';
 import debounce from 'lodash.debounce';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { CartSidebar } from './cart/sidebar';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { AddProductDialog } from './dialog/AddProductDialog';
-import { API } from '@/constants/api';
-import { mutate } from 'swr';
+import SignIn from './SignIn';
+import { signOut, useSession } from 'next-auth/react';
 
 async function fetchSuggestions(query: string) {
   const response = await fetch(`/api/products/search?name=${query}`);
@@ -35,8 +34,7 @@ const Header = React.memo(() => {
   } = useSearchStore();
 
   const router = useRouter();
-
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const { data: session } = useSession();
 
   const debouncedFetchSuggestions = useCallback(
     debounce(async (query: string) => {
@@ -73,33 +71,6 @@ const Header = React.memo(() => {
     }
   };
 
-  const handleAddProduct = async (product: {
-    name: string;
-    description: string;
-    price: number;
-    stock: number;
-  }) => {
-    try {
-      const response = await fetch(API.PRODUCT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao adicionar o produto');
-      }
-
-      mutate(`${API.PRODUCT}`);
-
-      setIsAddDialogOpen(false);
-    } catch (error) {
-      console.error('Erro ao adicionar o produto:', error);
-    }
-  };
-
   return (
     <header className="bg-[#161616] text-white sticky top-0 w-full z-10">
       <div className="container mx-auto px-4">
@@ -132,30 +103,39 @@ const Header = React.memo(() => {
 
                 {isFocused && searchTerm.length > 2 && (
                   <div className="absolute w-full bg-white border mt-2 rounded-md shadow-lg z-10 text-black">
-                    <div className="px-4 p-2 hover:bg-gray-200 cursor-pointer text-black">
+                    <div className="px-4 p-2 hover:bg-gray-200 cursor-pointer text-black group">
                       <Link
-                        href={`/search/${searchTerm}`}
-                        className={cn(
-                          'hover:bg-gray-200 w-full font-sans',
-                          suggestions.length == 0 && 'pointer-events-none',
-                        )}
+                        href={`/search/${searchTerm.toLowerCase()}`}
+                        className="hover:bg-gray-200 w-full font-sans flex items-center gap-2"
                       >
-                        Pesquisar por: <b className="font-bold">{searchTerm}</b>
+                        Buscar:
+                        <div className="flex items-center justify-between gap-2 w-full">
+                          <b className="font-bold">{searchTerm}</b>
+
+                          <div className="opacity-50 group-hover:opacity-100 transition-opacity">
+                            <MoveUpRight />
+                          </div>
+                        </div>
                       </Link>
                     </div>
 
                     {suggestions.length > 0 ? (
                       suggestions
                         .map((suggestion: Product) => (
-                          <div
+                          <Link
                             key={suggestion.id}
-                            className="px-4 p-2 hover:bg-gray-200 cursor-pointer text-black font-sans"
-                            onClick={() => setSearchTerm(suggestion.name)}
+                            className="w-full"
+                            href={`/search/${suggestion.name.toLowerCase()}`}
                           >
-                            <Link href={`/search/${suggestion.name}`}>
+                            <div
+                              className="px-4 p-2 hover:bg-gray-200 cursor-pointer text-black font-sans w-full"
+                              onClick={() =>
+                                setSearchTerm(suggestion.name.toLowerCase())
+                              }
+                            >
                               {suggestion.name}
-                            </Link>
-                          </div>
+                            </div>
+                          </Link>
                         ))
                         .splice(0, 5)
                     ) : (
@@ -169,40 +149,41 @@ const Header = React.memo(() => {
             </div>
           </div>
           <ul className="flex-1 flex justify-end items-center gap-2 flex-shrink-0">
-            <li>
-              <PlusIcon
-                onClick={() => setIsAddDialogOpen(!isAddDialogOpen)}
-                className="text-purple-200"
-              />
-            </li>
-            <li>
-              <CartSidebar />
-            </li>
-
-            <li className="text-sm font-bold bg-purple-200 rounded-full min-h-10 pr-4 cursor-pointer">
-              <Link
-                href="https://github.com/sucodev"
-                className="flex items-center gap-2"
-                aria-label="Perfil do GitHub"
-              >
-                <Avatar className="border-white border-2 rounded-full">
-                  <AvatarImage
-                    src="https://github.com/sucodev.png"
-                    alt="Avatar do usuário"
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <p className="text-black font-sans">@sucodev</p>
-              </Link>
-            </li>
+            <CartSidebar />
+            {session ? (
+              <>
+                <li
+                  className={cn(
+                    'text-sm font-bold bg-purple-200 rounded-full min-h-10 px-4 cursor-pointer flex items-center justify-center',
+                    session && 'px-0 pr-4 ',
+                  )}
+                >
+                  <Link className="flex items-center gap-2" href={'/admin'}>
+                    <Avatar className="border-white border-2 rounded-full">
+                      <AvatarImage
+                        src={session?.user?.image as string}
+                        alt={session?.user?.name as string}
+                      />
+                    </Avatar>
+                    <p className="text-black font-sans">Dashboard</p>
+                  </Link>
+                </li>
+                <Button
+                  className="w-full md:w-auto bg-red-500 hover:bg-red-500/80"
+                  onClick={() => signOut()}
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:block">Sair</span>
+                </Button>
+              </>
+            ) : (
+              <li>
+                <SignIn />
+              </li>
+            )}
           </ul>
         </div>
       </div>
-      <AddProductDialog
-        isOpen={isAddDialogOpen}
-        onClose={() => setIsAddDialogOpen(false)}
-        onConfirm={handleAddProduct}
-      />
     </header>
   );
 });
