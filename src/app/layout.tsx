@@ -5,6 +5,8 @@ import Header from '@/components/Header';
 import { Toaster } from '@/components/ui/toaster';
 import { SessionProvider } from 'next-auth/react';
 
+import { Analytics } from '@vercel/analytics/react';
+
 export const metadata: Metadata = {
   title: 'AutomaTrade',
   description:
@@ -25,6 +27,7 @@ export default function RootLayout({
           <main className="mt-4 mb-4 px-4">{children}</main>
 
           <Toaster />
+          <Analytics />
         </body>
       </html>
     </SessionProvider>
